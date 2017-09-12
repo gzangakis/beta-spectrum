@@ -1,5 +1,7 @@
 # Beta Decay Energy Spectrum for Isotopes and Reactors
 
+A research project to model the neutrino energy spectrum for isotopes, single isotope cumulative fission, and mixed-fuel nuclear reactors as well provide a starting point to analyze corresponding experimental datasets. Supervisor: Professor Jim Napolitano, Temple University.
+
 This project takes as input, ENDF and ENSDF formatted nuclear data files and outputs the corresponding beta or neutrino energy spectrum for a chosen physical system. 
 
 Additionally a file, reactor_neutrino_spectrum.py is included which models the energy spectrum of neutrinos as produced by a fission reactor of pre-determined time-averaged isotope fuel fractions as an ab-initio beta decay calculation. 
