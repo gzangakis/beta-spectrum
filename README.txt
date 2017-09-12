@@ -21,7 +21,7 @@ Single_Isotope_Neutrino_Spectrum.py - Calculates the neutrino energy spectrum of
 
 Output_Data - a directory in which you can store the output files. Contains two examples.
 
-ENSDF_beta - a directory of ENSDF files, for your use. ENSDF files are named after the daughter nucleus, therefore in order to compute the beta spectrum of, for example, 16O, one should use the ENSDF file 16N.
+ENSDF_beta.zip - a directory of ENSDF files, for your use. ENSDF files are named after the daughter nucleus, therefore in order to compute the beta spectrum of, for example, 16O, one should use the ENSDF file 16N. 
 
 
 
