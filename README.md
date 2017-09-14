@@ -10,7 +10,7 @@ All files are files are written in Python and only require input ENDF or ENSDF f
 
 ENDF: https://www.nndc.bnl.gov/endf/
 
-	-retrieval of datasets using SIGMA is suggested
+	-retrieval of datasets using the SIGMA tool is suggested
 
 ENSDF: https://www.nndc.bnl.gov/ensdf/
 
