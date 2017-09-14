@@ -165,6 +165,6 @@ def read_ENSDF(infile):
 			In = [I * float(line[41:49])*float(line[31:39]) for I in In]
 	infile.close()
 
-f = open('/Users/Gabe/Research/ENSDF/9BE','r')
+f = open('ENSDF_beta/56FE','r')
 read_ENSDF(f)
 
