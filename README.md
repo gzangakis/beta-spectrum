@@ -1,12 +1,14 @@
 # Beta Decay Energy Spectra for Isotopes and Reactors
 
-A research project to model the neutrino energy spectrum for isotopes, single isotope cumulative fission, and mixed-fuel nuclear reactors as well provide a starting point to analyze corresponding experimental datasets. 
+A package to model the neutrino energy spectrum for isotopes, single isotope cumulative fission, and mixed-fuel nuclear reactors as well provide a starting point to analyze corresponding experimental datasets. 
 
 This project's code takes as input ENDF and ENSDF formatted nuclear data files and outputs the corresponding beta or neutrino energy spectrum for a chosen physical system. 
 
 ## Getting Started
 
 All files are files are written in Python and only require input ENDF or ENSDF files found at the National Nuclear Data Center. If just modeling the beta decay of an isotope, only ENSDF formatted beta decay files are necessary. However, if modeling the beta decay of a fissile isotope or neutron induced fission reactor, fission yield datasets are necessary as well as the ENSDF beta decay files. These are found in ENDF files. 
+
+Familiarizing oneself with ENSDF and ENDF formatted files is suggested as they contain the isotopic nuclear structure and decay informaion. This package can be used as a reference to create your own code for modeling other physical processes or decays.
 
 ENDF: https://www.nndc.bnl.gov/endf/
 
