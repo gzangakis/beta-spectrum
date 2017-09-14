@@ -104,7 +104,7 @@ def read_ENSDF(infile):
 			# Data output
 			user_prompt = raw_input('Print data to file (antineutrino_spectrum.txt)? ')
 			if user_prompt.lower() == 'yes' or user_prompt.lower() == 'y':
-				dataout= open('/Users/Gabe/Research/betaspectrum.txt','w')
+				dataout= open('Output_Data/' + P + '_neutrino_spectrum.txt','w+')
 				dataout.write( 'Energy(keV) dN/dE(keV^-1)\n')
 				for x,y in zip(E,spectrum):
 					dataout.write(str(x) + ' ' + str(y) + '\n')
