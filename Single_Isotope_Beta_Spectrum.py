@@ -1,29 +1,20 @@
-from __future__ import division
 import math
 import numpy as np, scipy.constants as sciconst, scipy.special as ss,  matplotlib.pyplot as plt
-#import scipy.constants as sc
-#import scipy.special as ss
-from pylab import *
-from scipy import integrate
 from scipy.integrate import quad, simps, trapz, romberg
 import re
-#----------------------------------------------------------------------------------------- 
-# This function determines if a value is a number  
-#-----------------------------------------------------------------------------------------
+
 def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
+	"""This function determines if a value is a number."""
+	try:
+		float(s)
+		return True
+	except ValueError:
+		return False
 
-#----------------------------------------------------------------------------------------- 
-# This function, dn(E,Q,Z,forb) Calculates the branch beta kinetic energy spectrum. It 
-# takes the following variables: Q, the branch endpoint; Z, the number of protons in the 
-# parent nucleus; forb, the forbiddenness. E the kinetic energy of the electron.
-#-----------------------------------------------------------------------------------------
 def dn(E,Q,Z,A,forb):
-
+	"""This function, dn(E,Q,Z,forb) Calculates the branch beta kinetic energy spectrum. It 
+# takes the following variables: Q, the branch endpoint; Z, the number of protons in the 
+# parent nucleus; forb, the forbiddenness. E the kinetic energy of the electron."""
 	if 0 < E <= Q:
 		a=sciconst.alpha
 		PI=sciconst.pi
@@ -49,14 +40,12 @@ def dn(E,Q,Z,A,forb):
 	else:
 		return 0
 
-#----------------------------------------------------------------------------------------- 
-# This function calculates the total spectrum for the isotope. 
-#-----------------------------------------------------------------------------------------
 def calc_spectrum(L,Q,In,Z,A,fb):
+	""" This function calculates the total spectrum for the isotope. """
 	global E
 	normal=[]
 	E=np.linspace(0,14,5000)
-	spectrum = np.zeros(len(E))
+	spectrum = np.zeros(len(range(5000)))
 	for i in range(len(L)):
 		branch = np.zeros(len(range(5000)))
 		Q_eff = Q - L[i]
@@ -71,16 +60,14 @@ def calc_spectrum(L,Q,In,Z,A,fb):
 	norm = simps(spectrum,E)
 	print "Norm: ", norm
 	spectrum = [x/norm for x in spectrum]
+	#Optional: plot branch spectrum
 	#create plot of dN/dE versus KE(B)
 	#plt.errorbar(E,spectrum, yerr=None,ecolor='y',color='k', label = "Calculated")
 	#plt.semilogy(E,spectrum)
 	return spectrum
 
-#----------------------------------------------------------------------------------------- 
-# This function reads an ENSDF file, puts the relevant beta decay variables into arrays, 
-# and will plot the beta spectrum at the end of the file. 
-#-----------------------------------------------------------------------------------------
 def read_ENSDF(infile):
+	"""This function reads an ENSDF file, puts the relevant beta decay variables into arrays, and will plot the beta spectrum at the end of the file, with optional data output."""
 	L = []
 	Qval = []
 	In = []
@@ -90,6 +77,9 @@ def read_ENSDF(infile):
 	z_dict={'BE': 4, 'BA': 56, 'BH': 107, 'BI': 83, 'BK': 97, 'BR': 35, 'UUH': 116, 'RU': 44, 'RE': 75, 'RF': 104, 'LU': 71, 'RA': 88, 'RB': 37, 'RN': 86, 'RH': 45, 'H': 1, 'P': 15, 'GE': 32, 'GD': 64, 'GA': 31, 'UUT': 113, 'OS': 76, 'HS': 108, 'C': 6, 'HO': 67, 'HF': 72, 'HG': 80, 'HE': 2, 'PR': 59, 'PT': 78, 'PU': 94, 'UUO': 118, 'PB': 82, 'PA': 91, 'PD': 46, 'PO': 84, 'PM': 61, 'ZN': 30, 'K': 19, 'O': 8, 'S': 16, 'W': 74, 'EU': 63, 'ZR': 40, 'ER': 68, 'MD': 101, 'MG': 12, 'MO': 42, 'MN': 25, 'MT': 109, 'U': 92, 'FR': 87, 'FE': 26, 'FM': 100, 'NI': 28, 'NO': 102, 'NA': 11, 'NB': 41, 'ND': 60, 'NE': 10, 'RG': 111, 'ES': 99, 'NP': 93, 'B': 5, 'CO': 27, 'CM': 96, 'CL': 17, 'CA': 20, 'CF': 98, 'CE': 58, 'N': 7, 'V': 23, 'CS': 55, 'CR': 24, 'CP': 112, 'CU': 29, 'SR': 38, 'UUQ': 114, 'UUP': 115, 'UUS': 117, 'KR': 36, 'SI': 14, 'SN': 50, 'SM': 62, 'SC': 21, 'SB': 51, 'SG': 106, 'SE': 34, 'YB': 70, 'DB': 105, 'DY': 66, 'DS': 110, 'LA': 57, 'F': 9, 'LI': 3, 'TL': 81, 'TM': 69, 'LR': 103, 'TH': 90, 'TI': 22, 'TE': 52, 'TB': 65, 'TC': 43, 'TA': 73, 'AC': 89, 'AG': 47, 'I': 53, 'IR': 77, 'AM': 95, 'AL': 13, 'AS': 33, 'AR': 18, 'AU': 79, 'AT': 85, 'IN': 49, 'Y': 39, 'CD': 48, 'XE': 54}
 	non_decimal = re.compile(r'[^\d.]+')
 	for line in infile:
+		print line
+
+		# Empty line indicates end of file or missing dataset
 		if line[0:80].isspace():
 			if L == [] or Qval == [] or In == [] or J == []:
 				print "No beta scheme information available for this ENSDF file. \n"
@@ -100,21 +90,16 @@ def read_ENSDF(infile):
 			print 'INTENSITY:', In 
 			print 'Jpi:', J
 			print 'Forbiddenness: ',fb
-			#print 'Isomer:',isomer,"\n"
+			
 			spectrum=calc_spectrum(L,Q,In,Z,A,fb)
 			
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			# Electron kinetic energy spectrum data output
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-			dataout= open('Output_Data/' + p + '_beta_spectrum.txt','w+')
-			dataout.write('Energy(keV) dN/dE(keV^-1)' + '\n')
-			for x,y in zip(E,spectrum):
-				dataout.write(str(x) + ' ' + str(y) + '\n')
-
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			# Plot spectrum 
-			#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			# Data output
+			user_prompt = raw_input('Print data to file (betaspectrum.txt)? ')
+			if user_prompt.lower() == 'yes' or user_prompt.lower() == 'y':
+				dataout= open('/Users/Gabe/Research/betaspectrum.txt','w')
+				for x,y in zip(E,spectrum):
+					dataout.write(str(x) + ' ' + str(y) + '\n')
+				dataout.close()
 
 			plt.plot(E,spectrum)
 			plt.xlabel('Electron Kinetic Energy (MeV)')
@@ -122,12 +107,14 @@ def read_ENSDF(infile):
 			plt.title(str(A) + str(P) + ' Beta Spectrum')
 			plt.grid(True)
 			plt.xlim([0,14])
-			show()
+			plt.show()
+			
+			# clear parameter arrays
 			L = []
 			Qval = []
 			In = []
 			J = []
-			continue
+
 		#Get information on parent isotope and calculate Q value 
 		if line[7] == 'P' and line[6] == ' ' and line[5] == ' ':
 			p = line[0:5].strip()
@@ -166,10 +153,9 @@ def read_ENSDF(infile):
 		if line[7] == 'N' and line[6] == ' ' and line[5] == ' ' and line[41:49].strip()!='' and line[31:39].strip!='':
 			In = [I * float(line[41:49])*float(line[31:39]) for I in In]
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Execute program. First choose input ENSDF file as infile. 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	infile.close()
 
-infile = open('ENSDF_beta/106RH','r')
-read_ENSDF(infile)
+ensdf_file = open('/Users/Gabe/Research/BetaData/9BE','r')
+read_ENSDF(ensdf_file)
+
 
