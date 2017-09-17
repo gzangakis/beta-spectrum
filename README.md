@@ -18,16 +18,17 @@ ENSDF: https://www.nndc.bnl.gov/ensdf/
 
 ## INCLUDED
 
-Single_Isotope_Beta_Spectrum.py - Calculates the electron kinetic energy spectrum of an isotope
-Single_Isotope_Neutrino_Spectrum.py - Calculates the neutrino energy spectrum of an isotope
+BetaDecay.py - Calculates the electron kinetic energy spectrum or electron-antineutrino energy spectrum of an isotope as specfied by the user.
 
 Output_Data - a directory in which you can store the output files. Contains two examples.
 
-ENSDF_beta.zip - a directory of ENSDF files, for your use. 
+ENSDF_beta.zip - a directory of ENSDF files, for your use. An updated list can be found at the NNDC (link above).
+
 	**ENSDF files are named after the daughter nucleus, therefore to compute spectra one should use the filename corresponding to the daughter nucleus. For example, to calculate a beta spectrum for 16O, one should use the ENSDF file 16N.**
 
 Spontaneous_Fission_Beta_Spectrum.py - Using both ENSDF and ENDF files, this program computes a model beta spectrum for an isotope which undergoes spontaneous fission. The ENDF formatted fission yields for 252Cf is included.
 
+16O - an example ENSDF file for input into BetaDecay.py. It contains the beta decay information of 16N.
 
 ### Prerequisites
 
