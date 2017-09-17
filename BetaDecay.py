@@ -162,9 +162,14 @@ class BetaSpectrum(object):
 
 	def plot_spectrum(self,E,spectrum):
 		# Data output
-		user_prompt = raw_input('Print data to file (antineutrino_spectrum.txt)? ')
-		if user_prompt.lower() == 'yes' or user_prompt.lower() == 'y':
-			dataout= open('Output_Data/' + P + '_neutrino_spectrum.txt','w+')
+		user_prompt = raw_input('Print data to file? ')
+			if user_prompt.lower() == 'yes' or user_prompt.lower() == 'y':
+			if self.spectrum_type == 'neutrino':
+				dataout = open('Output_Data/' + self.p + '_neutrino_spectrum.txt','w+')
+				print 'Data saved as Output_Data/' + self.p + '_neutrino_spectrum.txt'
+			elif self.spectrum_type == 'beta':
+				dataout = open('Output_Data/' + self.p + '_beta_spectrum.txt','w+')
+				print 'Data saved as Output_Data/' + self.p + '_beta_spectrum.txt'
 			dataout.write( 'Energy(keV) dN/dE(keV^-1)\n')
 			for data in spectra:	
 				for x,y in zip(E,data):
@@ -172,14 +177,24 @@ class BetaSpectrum(object):
 				dataout.write('\n')
 				dataout.close()
 		for data in spectra:
-			plt.plot(E,data)
-			plt.xlabel('Neutrino Energy (keV)')
-			plt.ylabel('dN/dE ($keV^{-1}$)')
-			plt.title(str(self.A) + str(self.P) + ' Neutrino Spectrum')
-			plt.grid(True)
-			plt.xlim([0,14000])
-			plt.show()
+			if self.spectrum_type == 'beta':
+				plt.plot(E,data)
+				plt.xlabel('Beta Kinetic Energy (keV)')
+				plt.ylabel('dN/dE ($keV^{-1}$)')
+				plt.title(str(self.A) + str(self.P) + ' Beta Spectrum')
+				plt.grid(True)
+				plt.xlim([0,14000])
+				plt.show()
 
+			elif self.spectrum_type == 'neutrino':
+				plt.plot(E,data)
+				plt.xlabel('Anti-neutrino Energy (keV)')
+				plt.ylabel('dN/dE ($keV^{-1}$)')
+				plt.title(str(self.A) + str(self.P) + ' Anti-neutrino Spectrum')
+				plt.grid(True)
+				plt.xlim([0,14000])
+				plt.show()
+				
 in_1 = file(raw_input('Which ENSDF file would you like to use to calculate your spectrum? '),'r')
 in_2 = raw_input('What type of spectrum are you calculating? Enter \'beta\' or \'neutrino\': ')
 while in_2 != 'beta' and in_2 != 'neutrino':
